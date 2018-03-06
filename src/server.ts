@@ -5,7 +5,7 @@ import * as bodyParser from 'body-parser';
 
 import * as readline from 'readline';
 
-import { TestRoutes } from './routes';
+import { AuthRoutes, TestRoutes } from './routes';
 
 // import { TestRoutes } from './routes';
 
@@ -21,7 +21,7 @@ app.use((req: express.Request, res: express.Response, next: () => void) => {
 });
 
 // Add routing to each of the different subroute modules
-app.use('/api/', [TestRoutes, (req: express.Request, res: express.Response) => {
+app.use('/api/', [AuthRoutes, TestRoutes, (req: express.Request, res: express.Response) => {
     // If no API routes are valid, send 404 for not found
     if (!res.headersSent) {
         res.sendStatus(404);
