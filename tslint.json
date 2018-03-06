@@ -71,7 +71,7 @@
     "no-unused-expression": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
-    "object-literal-sort-keys": false,
+    "object-literal-sort-keys": [true, "shorthand-first"],
     "one-line": [
       true,
       "check-open-brace",
