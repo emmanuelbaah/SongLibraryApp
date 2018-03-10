@@ -7,7 +7,23 @@ import * as readline from 'readline';
 
 import { AuthRoutes, TestRoutes } from './routes';
 
-// import { TestRoutes } from './routes';
+import * as mongoose from 'mongoose';
+
+import * as Bluebird from 'bluebird';
+
+// Set mongoose' default promise engine to Bluebird
+(<any>mongoose).Promise = Bluebird;
+declare module 'mongoose' {
+    type Promise<T> = Bluebird<T>;
+}
+
+mongoose.connect('mongodb://localhost/song-library')
+        .catch(error => {
+            console.error(error);
+            process.exit(1);
+        });
+
+console.debug(`Successfully connected to database!`);
 
 const app = express();
 
