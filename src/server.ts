@@ -53,3 +53,24 @@ app.set('port', port);
 
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Application running on localhost:${port}`));
+
+// Graceful shutdown portion
+if (process.platform === 'win32') {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    rl.on('SIGINT', () => {
+        process.emit('SIGINT');
+    });
+}
+
+process.on('SIGINT', () => {
+    console.log('\nSIGINT detected!');
+    mongoose.connection.close()
+    .then(() => {
+        console.log('\nGracefully shutting down the application.');
+        process.exit();
+    });
+});
