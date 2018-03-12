@@ -28,6 +28,7 @@
     "@types/jsonwebtoken": "^7.2.5",
     "bcrypt": "^1.0.3",
     "bluebird": "^3.5.1",
+    "bootstrap": "^4.0.0",
     "body-parser": "^1.18.2",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
