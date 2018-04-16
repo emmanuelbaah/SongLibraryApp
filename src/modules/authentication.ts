@@ -7,12 +7,24 @@ declare module 'bcrypt' {
     type Promise<T> = Bluebird<T>;
 }
 
-import { ILibraryDocument, IUserDocument, UserModel, LibraryModel } from '../models';
+import { ILibraryDocument, IUserDocument, UserModel, LibraryModel, IUser } from '../models';
 
 export class AuthenticationModule {
 
     // # of rounds needed to encrypt. increase to double security. decrease to halve it.
     private static saltRounds = 10;
+
+    /**
+     * getallUsers - Query for all user documents
+     *
+     * @static
+     * @returns {Bluebird<IUserDocument[]>} List of all user documents in the database
+     * @memberof AuthenticationModule
+     */
+    public static getAllUsers(): Bluebird<IUserDocument[]> {
+        return UserModel.find()
+            .then((results: IUserDocument[]) => results);
+    }
 
     /**
      * registerUser - Attempts to create a new user account with an empty library for new user
