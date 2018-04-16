@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-center">
+  <div class="card register-box">
+    <h4 class="card-header text-center">Register</h4>
+    <div class="card-body">
+      <form [formGroup]="registerForm">
+        <div class="form-group">
+          <label for="nameInput">Name</label>
+          <input type="text" [ngClass]="{'is-invalid': (name.invalid && (name.dirty || name.touched))}" formControlName="name" name="name" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="Name" required>
+          <small id="nameHelp" *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">{{ getHelpMessage('name') }}</small>
+        </div>
+        <div class="form-group">
+          <label for="emailInput">Email Address</label>
+          <input type="email" [ngClass]="{'is-invalid': (email.invalid && (email.dirty || email.touched))}" formControlName="email" name="email" class="form-control" id="emailInput"  aria-describedby="emailHelp" placeholder="Email" required>
+          <small id="emailHelp" *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">{{ getHelpMessage('email') }}</small>
+        </div>
+        <div class="form-group">
+          <label for="usernameInput">Username</label>
+          <input type="text" [ngClass]="{'is-invalid': (username.invalid && (username.dirty || username.touched))}" formControlName="username" name="username" class="form-control" id="usernameInput" aria-describedby="usernameHelp" placeholder="Username" required>
+          <small id="usernameHelp" *ngIf="username.invalid && (username.dirty || username.touched)" class="invalid-feedback">{{ getHelpMessage('username') }}</small>
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">Password</label>
+          <input type="password" [ngClass]="{'is-invalid': (password.invalid && (password.dirty || password.touched))}" formControlName="password" name="password" class="form-control" id="passwordInput" aria-describedby="passwordHelp" placeholder="Password" required>
+          <small id="passwordHelp" *ngIf="password.invalid && (password.dirty || password.touched)" class="invalid-feedback">{{ getHelpMessage('password') }}</small>
+        </div>
+        <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary float-right" (click)="registerUser()">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
