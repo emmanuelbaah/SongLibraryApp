@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response, Router } from 'express';
 
 import { AuthenticationModule } from '../modules';
+import { IUserDocument } from '../models';
 
 const router = Router();
 
@@ -28,8 +29,7 @@ export const checkAuthentiation = (req: Request, res: Response, next: () => void
     }
 };
 
-// Test function for checking if user is authenticated and nothing else :)
-router.get('/checkAuthentication', (req: Request, res: Response, next: () => void) => {
+const isLoggedIn = (req: Request, res: Response, next: () => void) => {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
         jwt.verify(token, AUTH_SECRET, (error: jwt.JsonWebTokenError, decoded: object | string) => {
@@ -49,6 +49,28 @@ router.get('/checkAuthentication', (req: Request, res: Response, next: () => voi
         });
     }
     next();
+};
+
+// Test function for checking if user is authenticated and nothing else :)
+router.get('/isLoggedIn', isLoggedIn);
+router.post('/isLoggedIn', isLoggedIn);
+
+// Debug route to get a list of all usernames registered so far
+router.get('/admin/user', (req: Request, res: Response, next: () => void) => {
+    AuthenticationModule.getAllUsers()
+        .then((results: IUserDocument[]) => {
+            res.json({
+                success: true,
+                users: results.map(user => user.username),
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+            res.json({
+                message: 'Encountered an error while getting all users.',
+                success: false,
+            });
+        });
 });
 
 router.post('/authenticate', (req: Request, res: Response, next: () => void) => {

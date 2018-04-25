@@ -21,9 +21,10 @@ mongoose.connect('mongodb://localhost/song-library')
         .catch(error => {
             console.error(error);
             process.exit(1);
+        })
+        .then(() => {
+            console.debug(`Successfully connected to database!`);
         });
-
-console.debug(`Successfully connected to database!`);
 
 const app = express();
 
