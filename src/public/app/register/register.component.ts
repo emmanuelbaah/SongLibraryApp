@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +13,10 @@ export class RegisterComponent implements OnInit {
 
   registerForm: any;
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -38,8 +43,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get('password');
   }
 
-
-
   getHelpMessage(fieldName: string) {
     const errors = this.registerForm.controls[fieldName].errors;
     if (!errors) {
@@ -55,11 +58,20 @@ export class RegisterComponent implements OnInit {
 
   registerUser() {
     if (this.registerForm.valid) {
-      alert(`Submitting form`);
+      const userDetails = this.registerForm.value;
+      this.authService.register(userDetails).subscribe(
+        data => {
+          alert(data.message);
+          this.router.navigateByUrl('/dashboard');
+        },
+        error => {
+          console.error(error);
+          alert(`Failed to register. Please try again later.`);
+        }
+      );
     } else {
-      // alert(`Form is invalid`);
+      alert(`Form is invalid. Please make sure all fields are filled in and they meet the requirements.`);
     }
-    console.log(this.registerForm);
   }
 
 }

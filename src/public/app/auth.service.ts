@@ -32,7 +32,7 @@ export class AuthService {
     );
   }
 
-  getAuthHeader() {
+  private getAuthHeader() {
     if (this.token) {
       return {
         headers: {
@@ -47,6 +47,10 @@ export class AuthService {
     return this.http.post<AuthResponse>('/api/isLoggedIn', {
       token: this.token,
     }, this.getAuthHeader());
+  }
+
+  register(userDetails: any) {
+    return this.http.post<AuthResponse>('/api/register', userDetails, this.getAuthHeader());
   }
 
 }
